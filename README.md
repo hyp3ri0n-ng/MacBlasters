@@ -76,15 +76,47 @@ And let's use Google to go through these sections:
 
 Segments are further divided into sections, so for example you’ll find __cstring in the __TEXT segment, formatted as __TEXT.__cstring, as a common one.
 
-Note that there 
+Note that there is a segment specific to allowing more segments.
+- Finally the LINKEDIT section of a binary contains linker information that is used by the binary
 
-
-
-
+Now let's start dissecting!
 
 First, I want to see what it's linked to! Introducing `otool`, if you're familiar with `objdump` on Linux, this is essentially the same thing except for Mac. So let's see how we find the linked libraries. Turns out the -L switch will give us these libraries:
 
 
+```
+alejandrocaceres@Alejandros-MacBook-Pro /S/A/M/C/MacOS> otool -L Music | head -n 30
+Music:
+	/System/Library/PrivateFrameworks/AVFoundationCF.framework/Versions/A/AVFoundationCF (compatibility version 1.0.0, current version 2.0.0)
+	/System/Library/Frameworks/iTunesLibrary.framework/Versions/A/iTunesLibrary (compatibility version 1.0.0, current version 1.0.0)
+	/System/Library/PrivateFrameworks/AMPDevices.framework/Versions/A/AMPDevices (compatibility version 1.0.0, current version 1.0.0)
+	/System/Library/PrivateFrameworks/AMPLibrary.framework/Versions/A/AMPLibrary (compatibility version 0.0.0, current version 0.0.0)
+	/System/Library/Frameworks/CoreLocation.framework/Versions/A/CoreLocation (compatibility version 1.0.0, current version 2420.19.23)
+	/System/Library/Frameworks/Accelerate.framework/Versions/A/Accelerate (compatibility version 1.0.0, current version 4.0.0)
+	/System/Library/PrivateFrameworks/AppleMediaServicesUI.framework/Versions/A/AppleMediaServicesUI (compatibility version 1.0.0, current version 1.0.0, weak)
+	/System/Library/PrivateFrameworks/AppleSRP.framework/Versions/A/AppleSRP (compatibility version 1.0.0, current version 1.0.0)
+	/System/Library/PrivateFrameworks/AskPermission.framework/Versions/A/AskPermission (compatibility version 1.0.0, current version 1.0.0)
+	/System/Library/PrivateFrameworks/MediaControlSender.framework/Versions/A/MediaControlSender (compatibility version 1.0.0, current version 1.0.0)
+	/System/Library/PrivateFrameworks/FamilyCircle.framework/Versions/A/FamilyCircle (compatibility version 1.0.0, current version 1.0.0)
+	/System/Library/PrivateFrameworks/AppleMediaServices.framework/Versions/A/AppleMediaServices (compatibility version 1.0.0, current version 1.0.0)
+	/System/Library/Frameworks/Accounts.framework/Versions/A/Accounts (compatibility version 1.0.0, current version 1.0.0)
+	/System/Library/Frameworks/AVKit.framework/Versions/A/AVKit (compatibility version 1.0.0, current version 1.0.0)
+	/System/Library/Frameworks/AVFoundation.framework/Versions/A/AVFoundation (compatibility version 1.0.0, current version 2.0.0)
+	/System/Library/PrivateFrameworks/AuthKitUI.framework/Versions/A/AuthKitUI (compatibility version 1.0.0, current version 1.0.0)
+	/System/Library/PrivateFrameworks/AuthKit.framework/Versions/A/AuthKit (compatibility version 1.0.0, current version 1.0.0)
+	/System/Library/Frameworks/AudioUnit.framework/Versions/A/AudioUnit (compatibility version 1.0.0, current version 1.0.0)
+	/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox (compatibility version 1.0.0, current version 1000.0.0)
+	/System/Library/PrivateFrameworks/ApplePushService.framework/Versions/A/ApplePushService (compatibility version 1.0.0, current version 1.0.0)
+	/System/Library/PrivateFrameworks/AppleIDSSOAuthentication.framework/Versions/A/AppleIDSSOAuthentication (compatibility version 1.0.0, current version 1.0.0)
+	/System/Library/PrivateFrameworks/AOSAccounts.framework/Versions/A/AOSAccounts (compatibility version 1.0.0, current version 1.9.95)
+	/System/Library/Frameworks/AGL.framework/Versions/A/AGL (compatibility version 1.0.0, current version 1.0.0)
+	/System/Library/PrivateFrameworks/BiometricKit.framework/Versions/A/BiometricKit (compatibility version 1.0.0, current version 1.0.0)
+	/System/Library/Frameworks/CryptoTokenKit.framework/Versions/A/CryptoTokenKit (compatibility version 0.0.0, current version 487.141.1)
+	/System/Library/PrivateFrameworks/CrashReporterSupport.framework/Versions/A/CrashReporterSupport (compatibility version 1.0.0, current version 15053.1.0)
+	/System/Library/PrivateFrameworks/CoreUtils.framework/Versions/A/CoreUtils (compatibility version 1.0.0, current version 1.0.0)
+	/System/Library/PrivateFrameworks/CoreUI.framework/Versions/A/CoreUI (compatibility version 1.0.0, current version 692.1.0)
+	/System/Library/PrivateFrameworks/CoreRecognition.framework/Versions/A/CoreRecognition (compatibility version 1.0.0, current version 157.0.0)     
+```
 
 
 
