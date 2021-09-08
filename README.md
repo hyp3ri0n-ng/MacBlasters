@@ -2,20 +2,20 @@
 
 
 
-##Alex's Corner
+## Alex's Corner
 
 
 
-##Rich's Corner
-
-
-
-
-##Emily's corner
+## Rich's Corner
 
 
 
 
+## Emily's corner
 
-##Nicholas' Corner
+
+
+
+
+## Nicholas' Corner
 
