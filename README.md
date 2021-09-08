@@ -124,8 +124,9 @@ Music:
 
 
 ## Rich's Corner
+Meterpreter:
 
-
+http://www.ethicalpentest.com/2018/03/meterpreter-metasploit-tutorial-part1.html
 
 
 ## Emily's corner
