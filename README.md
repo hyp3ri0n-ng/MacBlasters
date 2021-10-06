@@ -131,9 +131,16 @@ http://www.ethicalpentest.com/2018/03/meterpreter-metasploit-tutorial-part1.html
 
 ## Emily's corner
 
+#### Services that may be helpful
 
+I highly recommend looking into the system report, whether through the GUI [ > About this Mac > System Report] or in the terminal using ```system_profiler```. This can be accessed with minimal privilages, especially if you have physical access to an unlocked device.
 
-
+I also recommend using the following commands 
+```ps aux
+ps -ax
+top
+```
+to use Activity Monitor in terminal
 
 ## Nicholas' Corner
 
