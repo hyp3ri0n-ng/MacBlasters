@@ -138,7 +138,8 @@ I highly recommend looking into the system report, whether through the GUI [ 
 I also recommend using the following commands 
 ```ps aux
 ps -ax
-top```
+top
+```
 to use Activity Monitor in terminal
 
 ## Nicholas' Corner
