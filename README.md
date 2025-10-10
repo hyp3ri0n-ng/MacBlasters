@@ -1,10 +1,160 @@
-# MacBlasters
+# MacBlasters: A Comprehensive Course on macOS Internals and Security Research
 
-Our goal is to get a better understanding of the internals of the OS X environment. None of us know jack about it so we are taking a hands-on knowledge-sharing approach with weekly meetings and additions here. 
+Welcome to MacBlasters! This is a hands-on, in-depth course designed to take you from macOS fundamentals to advanced security research and exploitation techniques. Whether you're a security researcher, reverse engineer, or simply curious about macOS internals, this course will provide you with the knowledge and practical skills needed to understand and analyze macOS systems.
 
+## About This Course
 
-## Alex's Corner
+This course covers:
+- **macOS Fundamentals**: Understanding the operating system, file systems, and basic architecture
+- **Mach-O Binary Format**: Deep dive into macOS native executable format
+- **LLDB Mastery**: From basic debugging to advanced techniques and scripting
+- **macOS Internals**: XNU kernel, system calls, IPC mechanisms, and frameworks
+- **Security Architecture**: SIP, Gatekeeper, Code Signing, and other protection mechanisms
+- **Security Research Methodology**: How to approach research, find vulnerabilities, and document findings
+- **Practical Exploitation**: Real-world techniques and defense strategies
 
+## Course Philosophy
+
+This course takes a hands-on, exploratory approach. We learn by doing, experimenting, and understanding the "why" behind everything. No prior macOS experience is required, but basic knowledge of operating systems and programming will be helpful.
+
+## Course Modules
+
+### Module 1: macOS Fundamentals
+[📖 Go to Module 1](modules/01-macos-fundamentals.md)
+
+Learn the basics of macOS, terminal usage, file system structure, and essential tools. This module provides the foundation for everything else in the course.
+
+**Topics covered:**
+- Terminal and shell basics (zsh, bash)
+- File system hierarchy and structure
+- Essential command-line tools
+- macOS architecture overview
+- Application bundles and package structure
+
+### Module 2: Mach-O Binary Format
+[📖 Go to Module 2](modules/02-mach-o-binaries.md)
+
+Deep dive into the Mach-O executable format used by macOS. Understand how binaries are structured, loaded, and executed.
+
+**Topics covered:**
+- Mach-O file structure and headers
+- Load commands and segments
+- Dynamic linking and libraries
+- Analyzing binaries with otool and jtool
+- Universal binaries and fat files
+
+### Module 3: Introduction to LLDB
+[📖 Go to Module 3](modules/03-lldb-basics.md)
+
+Master the LLDB debugger, an essential tool for reverse engineering and security research on macOS.
+
+**Topics covered:**
+- LLDB fundamentals and commands
+- Setting breakpoints and watchpoints
+- Examining memory and registers
+- Step-by-step execution
+- Process attachment and control
+
+### Module 4: Advanced LLDB Techniques
+[📖 Go to Module 4](modules/04-lldb-advanced.md)
+
+Take your LLDB skills to the next level with advanced debugging techniques and automation.
+
+**Topics covered:**
+- LLDB Python scripting
+- Custom commands and aliases
+- Memory analysis and pattern searching
+- Symbolic debugging
+- Debugging stripped binaries
+- Remote debugging
+
+### Module 5: macOS Security Architecture
+[📖 Go to Module 5](modules/05-security-architecture.md)
+
+Understand the security mechanisms that protect macOS systems and how they work.
+
+**Topics covered:**
+- System Integrity Protection (SIP)
+- Gatekeeper and notarization
+- Code signing and entitlements
+- Sandbox and App Sandbox
+- TCC (Transparency, Consent, and Control)
+- Secure Boot and FileVault
+
+### Module 6: macOS Internals
+[📖 Go to Module 6](modules/06-macos-internals.md)
+
+Explore the inner workings of macOS, from the XNU kernel to user-space frameworks.
+
+**Topics covered:**
+- XNU kernel architecture
+- Mach messaging and IPC
+- BSD layer and POSIX compatibility
+- IOKit and kernel extensions
+- System calls and syscall hooking
+- Launch daemons and agents
+- macOS frameworks and private APIs
+
+### Module 7: Security Research Methodology
+[📖 Go to Module 7](modules/07-research-methodology.md)
+
+Learn systematic approaches to security research, vulnerability discovery, and documentation.
+
+**Topics covered:**
+- Research methodology and planning
+- Attack surface analysis
+- Fuzzing and testing strategies
+- Vulnerability classification
+- Responsible disclosure
+- Writing proof-of-concepts
+- Documentation and reporting
+
+### Module 8: Practical Security Analysis
+[📖 Go to Module 8](modules/08-practical-security.md)
+
+Apply your knowledge to real-world scenarios with practical exercises and case studies.
+
+**Topics covered:**
+- Binary analysis workflow
+- Identifying vulnerabilities
+- Exploit development basics
+- Privilege escalation techniques
+- Defense strategies and hardening
+- Case studies and CTF challenges
+
+## Prerequisites
+
+- Basic understanding of operating systems concepts
+- Familiarity with command-line interfaces
+- Programming knowledge (C/C++ helpful but not required)
+- A Mac computer with macOS (or access to a macOS VM)
+
+## How to Use This Course
+
+1. **Follow the modules in order** - Each module builds on previous knowledge
+2. **Practice hands-on** - Every concept includes practical exercises
+3. **Experiment freely** - Use VMs or test systems to explore safely
+4. **Take notes** - Document your findings and learning
+5. **Contribute** - Share your discoveries and improvements via pull requests
+
+## Additional Resources
+
+- [Resources and References](resources/references.md) - Curated list of books, papers, and tools
+- [Labs and Exercises](labs/README.md) - Hands-on exercises for each module
+- [Glossary](resources/glossary.md) - Common terms and definitions
+
+## Contributing
+
+This course is a community effort. If you find errors, have suggestions, or want to contribute new content, please open an issue or submit a pull request!
+
+---
+
+## Legacy Content (Original Explorations)
+
+The sections below contain the original exploratory notes that inspired this course. They're kept here for historical context.
+
+<details>
+<summary>Alex's Corner - Original Notes on Mach-O Binaries</summary>
 
 #### Terminal basics
 
@@ -50,7 +200,7 @@ OK great, we're not crazy, the Mach-O format is being used. But what about non-.
 alejandrocaceres@Alejandros-MacBook-Pro /S/A/M/Contents> which ls
 /bin/ls
 alejandrocaceres@Alejandros-MacBook-Pro /S/A/M/Contents> file /bin/ls
-/bin/ls: Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [arm64e:Mach-O 64-bit executable arm64e]
+./bin/ls: Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [arm64e:Mach-O 64-bit executable arm64e]
 ```
 
 ...but OS X doesn't care about my feelings. The ls program has been recompiled as a Mach-O format. Great, we're locked in to something, perhaps this will help us attack binaries in the future. In compilation there are a few stages, first is the linking and importing stage where all of your imports to use libraries must be listed. The linking phase is critical in that it is what allows you to reuse code, you just need to tell it where that code is. Typically, this code is compiled. These are called `dll` (dynamic link library) in Windows and `.so` (shared object) in Linux. With that in mind let's see what other stuff we can discover about this executable.
@@ -61,7 +211,7 @@ Before we do anything, there is a critical step to bug hunting and offensive sec
 
 And let's use Google to go through these sections:
 
-- Starting with the Mach Header. It’s purpose is to describe what the file contains, and how the Kernel and Dynamic Linker should handle it. The first 4 bytes are, like with any file, it’s “Magic Number”. A Magic Number is used to identify a file format. In the case of Mach-O’s there are three Magic Numbers that one may come across. 0xfeedface for 32-bit, 0xfeedfacf for 64-bit and 0xcafebabe for Mach Universal Binaries / Object files. This is a breakdown of the C struct that makes up that section: ```    struct mach_header {
+- Starting with the Mach Header. It's purpose is to describe what the file contains, and how the Kernel and Dynamic Linker should handle it. The first 4 bytes are, like with any file, it's "Magic Number". A Magic Number is used to identify a file format. In the case of Mach-O's there are three Magic Numbers that one may come across. 0xfeedface for 32-bit, 0xfeedfacf for 64-bit and 0xcafebabe for Mach Universal Binaries / Object files. This is a breakdown of the C struct that makes up that section: ```    struct mach_header {
         uint32_t            magic;          // mach magic number
         cpu_type_t          cputype;        // cpu specifier
         cpu_subtype_t       cpusubtype;     // cpu subtype specifier
@@ -72,9 +222,9 @@ And let's use Google to go through these sections:
         uint32_t            reserved;       // *64-bit only* reserved
     };```
 - Load Commands are placed directly after the Mach-O header in the file. They specify the logical structure of the file and the layout of the file in virtual memory.
-- If you are unfamiliar with how object files work, you have a number of these segments. The __TEXT segment contains the instructions that will be executed by the CPU, and the __DATA segment contains both static local variables and global variables. These are both standard, however you may find additional segments such as __PAGEZERO and __LINKEDIT, and in XNU Kernelcaches, you’ll get even more funky segment names like __PRELINK_INFO and __LAST.
+- If you are unfamiliar with how object files work, you have a number of these segments. The __TEXT segment contains the instructions that will be executed by the CPU, and the __DATA segment contains both static local variables and global variables. These are both standard, however you may find additional segments such as __PAGEZERO and __LINKEDIT, and in XNU Kernelcaches, you'll get even more funky segment names like __PRELINK_INFO and __LAST.
 
-Segments are further divided into sections, so for example you’ll find __cstring in the __TEXT segment, formatted as __TEXT.__cstring, as a common one.
+Segments are further divided into sections, so for example you'll find __cstring in the __TEXT segment, formatted as __TEXT.__cstring, as a common one.
 
 Note that there is a segment specific to allowing more segments.
 - Finally the LINKEDIT section of a binary contains linker information that is used by the binary
@@ -118,22 +268,23 @@ Music:
 	/System/Library/PrivateFrameworks/CoreRecognition.framework/Versions/A/CoreRecognition (compatibility version 1.0.0, current version 157.0.0)     
 ```
 
+</details>
 
+<details>
+<summary>Rich's Corner - Original Notes on Meterpreter</summary>
 
-
-
-
-## Rich's Corner
 Meterpreter:
 
 http://www.ethicalpentest.com/2018/03/meterpreter-metasploit-tutorial-part1.html
 
+</details>
 
-## Emily's corner
+<details>
+<summary>Emily's Corner - Original Notes on System Profiling</summary>
 
 #### Services that may be helpful
 
-I highly recommend looking into the system report, whether through the GUI [ > About this Mac > System Report] or in the terminal using ```system_profiler```. This can be accessed with minimal privilages, especially if you have physical access to an unlocked device.
+I highly recommend looking into the system report, whether through the GUI [ > About this Mac > System Report] or in the terminal using ```system_profiler```. This can be accessed with minimal privilages, especially if you have physical access to an unlocked device.
 
 I also recommend using the following commands 
 ```ps aux
@@ -142,5 +293,11 @@ top
 ```
 to use Activity Monitor in terminal
 
-## Nicholas' Corner
+</details>
 
+<details>
+<summary>Nicholas' Corner</summary>
+
+(To be added)
+
+</details>
